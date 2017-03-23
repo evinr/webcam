@@ -35,6 +35,12 @@ ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mkv
 Easiest way to upload image to a webserver: 
 aws s3 cp ./image4144.png s3://photobad.com/image.png
 
+And all together:
+ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" test.jpeg && aws s3 cp ./test.jpeg s3://photobad.com/a.jpeg
+
+And with a dash of persistance:
+*/1 * * * * ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" default.jpeg && aws s3 cp ./default.jpeg s3://photobad.com/default.jpeg && cp -a ./default.jpeg "$(date +"%H%M").jpeg" 
+
 
 ##TODO:
 	###Setup Script
