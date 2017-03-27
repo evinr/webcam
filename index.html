@@ -8,22 +8,56 @@
 	<style type='text/css'>
 		body {
 			background-color: black;
-			height: 100vh;
-			width: 100vh;
-		}
-	    iframe {
-			height: 100%;
+			margin:  0;
 			width: 100%;
-	    }
+		}
+		img {
+			left: 50%;
+		    position: absolute;
+		    transform: translate(-50%,0%);
+		}
+
+		/* If screen size is less than the image width */
+		@media only screen and (max-width : 1080px)   {
+			body img {
+				width: 100%;
+			}
+		}
+
+
 	</style>
 </head>
 <body>
-	<!-- <img src="default.jpeg"> -->
-	<iframe src="https://www.youtube.com/embed/2auOWTeBR0U?autoplay=1" frameborder="0" allowfullscreen></iframe>
-
+	<div id="imgParent">
+		<img>
+		<img src="default.jpeg">
+	</div>
 </body>
 
 <script>
 
+
+// remove the previous image or change the z-index
+var updateImage = function () {
+	// body...
+	console.log('refreshing...');
+	var image = document.createElement('img');
+	image.src = 'default.jpeg';
+	image.className = 'addd'
+
+	document.getElementById('imgParent').appendChild(image);
+	// attach event listener to wait for image to finish painting
+	// document.getElementById('imgParent').addEventListener('transitionend', removeImage, false);
+	removeImage();
+}
+
+var removeImage = function () {
+	console.log('removing old image')
+	// get the first image on the page
+	document.getElementById('imgParent').children[0].remove();
+}
+
+// every 1 minute, reload the image 
+var updateImageTask = window.setInterval(updateImage, 60000);
 </script>
 </html>
