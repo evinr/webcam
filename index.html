@@ -35,14 +35,17 @@
 </body>
 
 <script>
+// works good enough, picture renders will be smooth transistion
+// TODO: make eventlistener work for loadend or transitionend to remove the old image with better layering, ie adding new image before the old image
 
 
 // remove the previous image or change the z-index
 var updateImage = function () {
-	// body...
 	console.log('refreshing...');
+
 	var image = document.createElement('img');
-	image.src = 'default.jpeg';
+	var timeStamp = Date.now(); // cache buster hack
+	image.src = 'default.jpeg?' + timeStamp;
 	image.className = 'addd'
 
 	document.getElementById('imgParent').appendChild(image);
@@ -53,7 +56,7 @@ var updateImage = function () {
 
 var removeImage = function () {
 	console.log('removing old image')
-	// get the first image on the page
+	// get the first image in the wrapper
 	document.getElementById('imgParent').children[0].remove();
 }
 
