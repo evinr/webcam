@@ -12,6 +12,7 @@
 			width: 100%;
 		}
 		img {
+			height: 100%;
 			left: 50%;
 		    position: absolute;
 		    transform: translate(-50%,0%);
@@ -20,6 +21,7 @@
 		/* If screen size is less than the image width */
 		@media only screen and (max-width : 1080px)   {
 			body img {
+				height: auto;
 				width: 100%;
 			}
 		}
@@ -46,7 +48,6 @@ var updateImage = function () {
 	var image = document.createElement('img');
 	var timeStamp = Date.now(); // cache buster hack
 	image.src = 'default.jpeg?' + timeStamp;
-	image.className = 'addd'
 
 	document.getElementById('imgParent').appendChild(image);
 	// attach event listener to wait for image to finish painting
