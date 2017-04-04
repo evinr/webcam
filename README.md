@@ -41,11 +41,15 @@ ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" test.jpe
 And with a dash of persistance:
 */1 * * * * ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" default.jpeg && aws s3 cp ./default.jpeg s3://photobad.com/default.jpeg && cp -a ./default.jpeg "$(date +"%H%M").jpeg" 
 
+With this to take that persistance and make a 60-second timelapse video of the last 24-hours (this fails after the RPi runs out of memory):
+ffmpeg -y -framerate 24 -i %04d.jpeg output.mp4
+
 Then burn it all down and start with a new approach:
 ffmpeg -ar 44100 -ac 2 -f alsa -i hw:1,0 -f v4l2 -codec:v h264 -framerate 30 -video_size 1920x1080 -itsoffset 0.5 -i /dev/video0 -copyinkf -codec:v copy -codec:a aac -ab 128k -g 10 -f flv rtmp://a.rtmp.youtube.com/live2/(Your Stream Key Here)
 
 Then realize that the internet is not that stable and a RPi is a RPi...
-
+And that long polling with no persistance aint so bad:
+ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" test.jpeg && aws s3 cp ./test.jpeg s3://photobad.com/a.jpeg
 
 
 
@@ -69,9 +73,16 @@ $ crontab -l
 * * * * * /bin/ls >> /tmp/ls-out
 
 
-		Video Device Listing
-		Max Video Resolution Supported
-		Local Network Setup
-		Remote SSH Setup
+		Local Wifi Network Setup
+			autoconnect to open networks
+			bypass login/acceptance screens
 
-	###
+		Remote SSH Setup
+			Need to determine the best and secure way of doing this
+
+	###Express Server
+	Video Device Listing
+		Max Video Resolution Supported
+			need to determine the best focus for position installed
+			best way to dynamically set while pan-tilt is active
+	Cron job edit for frame rates and video recap

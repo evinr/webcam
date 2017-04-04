@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is used to decrement the file names in a directory
+# This script is used to decrement the file names in a directory where the files are named in a numerical order (i.e 1.jpeg, 2.jpeg, ... n.jpeg)
 
 for totalFiles in *.jpeg; do 
 	# set the value of the images curent ordering
