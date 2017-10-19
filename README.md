@@ -1,7 +1,7 @@
 # Webcam
-Just figuring out how to build a webcam using off the shelf components
+A pet project figuring out how to build a webcam using off the shelf components
 
-
+##Random Notes
 To list devices:
 v4l2-ctl --list-devices
 
@@ -51,38 +51,38 @@ Then realize that the internet is not that stable and a RPi is a RPi...
 And that long polling with no persistance aint so bad:
 ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y -vf "transpose=2" test.jpeg && aws s3 cp ./test.jpeg s3://photobad.com/a.jpeg
 
+But then the aws s3 app is not robust enough to bypass the SG Proxy at work so we dumb it down to simple POST...
+curl -H "Content-Type: application/json" -d '{'$(openssl base64 -A -in jenkins.png)' }'  http://example.com
+
+And really a webcam does not have the highest quality CCD, so we use the 
 
 
-##TODO:
-	###Setup Script
+##Cron Schedualing 
+	###Generic Crontab Insertion
+		This is to insert an additional cron job without having to directly edit the file.
+			`export EDITOR="tee"
+			printf "0 * * * * /bin/echo 'Hello World <3<3<3<3<3' \n$(crontab -l)\n" | crontab -e
+			unset EDITOR`
+	###Specific Crontab Jobs
+		These are the jobs that need to be ran at regular intervals.
+		`@reboot connectToInternet
+		*/1 * * * * takePicture`
 
-	2. Edit crontab in Batch Mode
+##Localized Wifi Network Setup
+	###Autoconnect to Open Networks
+		####bypass login/acceptance screens
 
-You can edit the crontab in batch mode using various methods (for example, using sed).
+	###Remote SSH Setup
+		Need to determine the best and secure way of doing this
 
-Example: Change output redirection from write to append for all cron jobs.
-
-$ crontab -l
-* * * * * /bin/date > /tmp/date-out
-* * * * * /bin/ls > /tmp/ls-out
-
-$ crontab -l | sed 's/>/>>/' | crontab -
-
-$ crontab -l
-* * * * * /bin/date >> /tmp/date-out
-* * * * * /bin/ls >> /tmp/ls-out
-
-
-		Local Wifi Network Setup
-			autoconnect to open networks
-			bypass login/acceptance screens
-
-		Remote SSH Setup
-			Need to determine the best and secure way of doing this
-
+##Image Storage
+	###S3 Bucket
+		Holds the image
+	###Lambda Function
+		This catches the image being transmitted via POST
+	
+##Video Features
 	###Express Server
-	Video Device Listing
-		Max Video Resolution Supported
-			need to determine the best focus for position installed
-			best way to dynamically set while pan-tilt is active
-	Cron job edit for frame rates and video recap
+		This is needed for a ws stream. 
+		
+	
