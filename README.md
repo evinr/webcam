@@ -66,8 +66,10 @@ A pet project figuring out how to build a webcam using off the shelf components
 		unset EDITOR
 ### Specific Crontab Jobs
 #### These are the jobs that need to be ran at regular intervals.
+		# Runs at startup
 		@reboot connectToInternet
-		*/1 * * * * takePicture
+		# Runs evey minute
+		* * * * * takePicture
 
 ## Localized Wifi Network Setup
 ### Autoconnect to Open Networks
