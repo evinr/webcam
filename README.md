@@ -69,7 +69,13 @@ A pet project figuring out how to build a webcam using off the shelf components
 		# Runs at startup
 		@reboot connectToInternet
 		# Runs evey minute
-		* * * * * takePicture
+		*/1 * * * * takePicture
+### Su without Entering a Password
+#### This will update the cron job for the root user
+		sudo crontab -u root -e
+#### Then add this line to the cron file
+		@daily /sbin/shutdown -r now
+
 
 ## Localized Wifi Network Setup
 ### Autoconnect to Open Networks
