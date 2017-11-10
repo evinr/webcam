@@ -58,7 +58,7 @@ A pet project figuring out how to build a webcam using off the shelf components
 
 
 
-## Cron Schedualing 
+## Cron Scheduling 
 ### Generic Crontab Insertion
 #### This is to insert an additional cron job without having to directly edit the file.
 		export EDITOR="tee"
