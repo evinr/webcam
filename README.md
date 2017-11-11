@@ -75,6 +75,19 @@ A pet project figuring out how to build a webcam using off the shelf components
 		sudo crontab -u root -e
 #### Then add this line to the cron file
 		@daily /sbin/shutdown -r now
+		
+### Reset USB from Command Line
+#### Download the Script
+		wget -c --no-check-certificate https://gist.githubusercontent.com/x2q/5124616/raw/3f6e5f144efab2bc8e9d02b95b8301e1e0eab669/usbreset.c -O usbreset.c
+#### Compile and Build
+		cc usbreset.c -o usbreset
+#### Mark as Executable
+		chmod +x usbreset
+#### Determine Your Devices
+		lsusb -t
+#### Execute Script
+		sudo ./usbreset /dev/bus/usb/001/004
+
 
 
 ## Localized Wifi Network Setup
@@ -88,8 +101,30 @@ Need to determine the best and secure way of doing this
 ### S3 Bucket
 Holds the image
 ### Lambda Function
-This catches the image being transmitted via POST
-	
+#### This catches the image being transmitted via POST
+		exports.handler = function(event, context, callback) {
+			var AWS = require('aws-sdk');
+			    AWS.config.update({accessKeyId: process.env.accessKeyId, secretAccessKey: process.env.secretAccessKey});
+			var s3 = new AWS.S3();
+			var now = new Date().getTime();
+			var bod = event.body;
+			var params = {
+					Bucket: 'photobad.com',
+					// assumes it will always be jpeg
+					Key: 'default.jpeg',
+					Body: new Buffer(event.base64String, 'base64')
+				};
+
+			s3.putObject(params, function(err, data) {
+				if (err) {
+				    callback(null, 'an error occured ' + err);
+				}
+				// if the file object is uploaded successfully to s3 then you get your full url back
+				callback(null, 'all good ' + params.Key);
+
+			})
+		}
+
 ## Video Features
 ### Express Server
 This is needed for a ws stream. 
