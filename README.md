@@ -85,8 +85,8 @@ A pet project figuring out how to build a webcam using off the shelf components
 		chmod +x usbreset
 #### Determine Your Devices
 		lsusb -t
-#### Execute Script
-		sudo ./usbreset /dev/bus/usb/001/004
+#### Add to the Root Cron Job
+		sleep 30 && /home/pi3/usbreset /dev/bus/usb/001/004
 
 
 
