@@ -26,7 +26,5 @@ fi
 	(crontab -l 2>/dev/null; echo -e "IMAGE_ENDPOINT='$IMAGE_ENDPOINT'\n*/1 * * * * ~/webcam/image-capture-n-upload.sh") | crontab -
 
 # Setup daily reboot to prevent unexpected behavior
-	# printf "@daily /sbin/shutdown -r now \n$(crontab -l root)\n" | sudo crontab -u root -e
-	# test this with root
-	# TODO
-	(sudo crontab -u root -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | sudo crontab - -u root
+	# TODO check if already there
+	(sudo crontab -u root -l 2>/dev/null; echo "@daily /sbin/shutdown -r now") | sudo crontab - -u root
