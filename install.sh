@@ -2,9 +2,6 @@
 
 # install apps needed to configure webcam
 sudo apt-get install v4l-utils -y
-# configures the webcam to take HD images
-# TODO determine max resolution and select it via v4l-utils
-v4l2-ctl --set-fmt-video=width=1920,height=1080,pixelformat=1
 
 # Setup environmental variables
   # checks if the environmental variable is at least 20 characters long
@@ -23,7 +20,7 @@ fi
 
 # Setup the crontabs
 	# TODO check if the script is already a cron job
-	(crontab -l 2>/dev/null; echo -e "IMAGE_ENDPOINT='$IMAGE_ENDPOINT'\n*/1 * * * * ~/webcam/image-capture-n-upload.sh") | crontab -
+	(crontab -l 2>/dev/null; echo -e "IMAGE_ENDPOINT='$IMAGE_ENDPOINT'\n@reboot ~/webcam/startup.sh\n*/1 * * * * ~/webcam/image-capture-n-upload.sh") | crontab -
 
 # Setup daily reboot to prevent unexpected behavior
 	# TODO check if already there
