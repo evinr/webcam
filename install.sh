@@ -12,14 +12,15 @@ if [ "${#IMAGE_ENDPOINT}" -lt "20" ]; then
 	# TODO
 	# adds what was entered on the command line to the bash config file
 	echo $endpoint >> ~/.bashrc
-	echo " please run 'source ~/.bashrc' to update this shell" &&
+	echo " please run 'source ~/.bashrc' to update this shell"
 fi
 
 # Setup the crontabs
+	# TODO check if the script is already a cron job
 	(crontab -l 2>/dev/null; echo "*/1 * * * * ~/webcam/image-capture-n-upload.sh") | crontab -
 
 # Setup daily reboot to prevent unexpected behavior
 	# printf "@daily /sbin/shutdown -r now \n$(crontab -l root)\n" | sudo crontab -u root -e
 	# test this with root
 	# TODO
-	(crontab -u root -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | crontab -
+	(sudo crontab -u root -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | sudo crontab - -u root
