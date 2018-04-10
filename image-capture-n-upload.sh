@@ -5,7 +5,7 @@
 
 # capture the image
 # ffmpeg -f v4l2 -i /dev/video0 -vframes 1 -ss 0:0:5 -y ~/default.jpeg &&
-fswebcam -r 1920x1080 --jpeg 85 -D 1 default.jpg &&
+fswebcam -r 1920x1080 --jpeg 85 -D 5 -S 13 default.jpg &&
 
 
 # convert to base 64 in valid JSON-format

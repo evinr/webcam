@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # install apps needed to configure webcam
-sudo apt-get install v4l-utils -y
+sudo apt-get install v4l-utils fswebcam -y
 
 # Setup environmental variables
   # checks if the environmental variable is at least 20 characters long
