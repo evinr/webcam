@@ -1,8 +1,7 @@
-// Image Storage in a S3 Bucket via a Lambda Function
+// Triggered Image Copying in S3 Bucket via a Lambda Function
 // 
-// the JSON is sent via POST request to via the gateway and assumes the image is encoded as a string assigned to the attribute named base64String 
-// This catches the image being transmitted via POST
-// copy and paste the contents via the AWS Lambda console or upload the entire zip to AWS Lambda
+// This function should be called after an image is uploaded to an S3 bucket
+// It should take the image that was just uploaded and then copy that image to a dedicated directory that will hold all of the images that are being captured regularly
 	exports.handler = function(event, context, callback) {
 		var AWS = require('aws-sdk');
 		    AWS.config.update({accessKeyId: process.env.accessKeyId, secretAccessKey: process.env.secretAccessKey});
@@ -12,7 +11,8 @@
 		var params = {
 				Bucket: 'photobad.com',
 				// assumes it will always be jpeg
-				Key: 'default.jpeg',
+				// TODO: Determine if a path is allowed to be feed in like this
+				Key: 'images/' + now + '.jpeg',
 				Body: new Buffer(event.base64String, 'base64')
 			};
 
